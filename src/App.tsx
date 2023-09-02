@@ -3,7 +3,7 @@ import "./assets/styles/output.css"
 import "./assets/styles/normalize.css"
 
 // Hooks
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState, useId } from "react"
 
 // components
 import FavSite from "./components/FavSite"
@@ -13,12 +13,13 @@ import NewFavsiteForm from "./components/NewFavsiteForm"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPlus, faXmarkCircle } from "@fortawesome/free-solid-svg-icons"
 
-type sites = { url: string; name: string; saved?: boolean }
+type sites = { url: string; name: string; saved?: boolean; siteId?: string }
 
 export default function App() {
-	const [searchBarValue, setSearchBarValue] = useState<string>()
+	const searchBarRef = useRef<HTMLInputElement>(null)
 	const [newFavSiteStatus, setNewFavSiteStates] = useState(false)
 	const [favSites, setFavSite] = useState<sites[]>([])
+	let siteId: string = useId()
 	// check if user get into the app for the first time
 	useEffect(() => {
 		if (localStorage.getItem("saved_websites") === null) {
@@ -60,9 +61,11 @@ export default function App() {
 	}, [favSites])
 	// search bar handler
 	function searchBarHandler(e: React.KeyboardEvent<HTMLInputElement>) {
-		if (searchBarValue === "") return
+		if (searchBarRef.current?.value === "") return
 		if (e.key === "Enter") {
-			window.open(`https://www.google.com/search?q=${searchBarValue}`)
+			window.open(
+				`https://www.google.com/search?q=${searchBarRef.current?.value}`,
+			)
 		}
 	}
 	return (
@@ -81,10 +84,7 @@ export default function App() {
 					type="text"
 					placeholder="search"
 					onKeyUp={(e) => searchBarHandler(e)}
-					value={searchBarValue}
-					onChange={(e) =>
-						setSearchBarValue(e.currentTarget.value)
-					}
+					ref={searchBarRef}
 				/>
 			</div>
 			<div className="fav-sites w-[min(50rem,100%)] h-fit mt-4 flex flex-wrap gap-6 justify-center items-center">
@@ -95,6 +95,16 @@ export default function App() {
 								key={crypto.randomUUID()}
 								url={url}
 								name={name}
+								id={siteId}
+								delBtnHandler={() => {
+									return setFavSite((current) => {
+										return current.filter(
+											(el) =>
+												el.siteId !=
+												`${siteId}-${name}`,
+										)
+									})
+								}}
 							/>
 						)
 					},
@@ -128,7 +138,14 @@ export default function App() {
 						submitBtnMission={(name: string, url: string) => {
 							setNewFavSiteStates(false)
 							setFavSite((current) => {
-								return [...current, { name, url }]
+								return [
+									...current,
+									{
+										name,
+										url,
+										siteId: `${siteId}-${name}`,
+									},
+								]
 							})
 						}}
 					/>

@@ -2,44 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 @layer base {
-	* {
-		@apply box-border capitalize;
-	}
-	*:focus {
-		outline: none;
-	}
-	@font-face {
-		font-family: sf-pro-en;
-		src: url("../fonts/font.otf");
-	}
-	html {
-		@apply h-[100vh] text-[80%];
-	}
-	body {
-		@apply font-[sf-pro-en] h-full bg-[url("/imgs/background/test.jpg")] bg-cover bg-no-repeat;
-	}
-	#root {
-		@apply w-full h-full;
-	}
-	#alert-messages:has(*) {
-		@apply w-full h-full grid place-items-center fixed inset-0 bg-[#33333356];
-	}
-	object {
-		@apply rounded-[50%];
-	}
-	input {
-		@apply border-none;
-	}
-	img {
-		@apply max-w-full;
-	}
-	input {
-		text-transform: none;
-	}
-	.container {
-		@apply w-full p-8 h-full;
-	}
-	.main-input {
-		@apply pl-6 py-2 rounded-lg;
-	}
+  * {
+    @apply box-border capitalize;
+  }
+  *:focus {
+    outline: none;
+  }
+  @font-face {
+    font-family: sf-pro-en;
+    src: url("../fonts/font.otf");
+  }
+  html {
+    @apply h-[100vh] text-[80%];
+  }
+  body {
+    @apply font-[sf-pro-en] h-full bg-[url("/imgs/background/test.jpg")] bg-cover bg-no-repeat;
+  }
+  #root {
+    @apply w-full h-full;
+  }
+  #alert-messages:has(*) {
+    @apply w-full h-full grid place-items-center fixed inset-0 bg-[#33333356];
+  }
+  object {
+    @apply rounded-[50%];
+  }
+  input {
+    @apply border-none;
+  }
+  img {
+    @apply max-w-full;
+  }
+  input {
+    text-transform: none;
+  }
+  .container {
+    @apply w-full p-8 h-full;
+  }
+  .main-input {
+    @apply pl-6 py-2 rounded-lg;
+  }
 }

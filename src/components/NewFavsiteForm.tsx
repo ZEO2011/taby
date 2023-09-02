@@ -1,5 +1,5 @@
 import { createPortal } from "react-dom"
-import { useState } from "react"
+import { useRef } from "react"
 
 export default function NewFavsiteForm({
 	closeComponent,
@@ -8,12 +8,18 @@ export default function NewFavsiteForm({
 	closeComponent: React.ReactElement
 	submitBtnMission: Function
 }) {
-	const [websiteName, setWebsiteName] = useState("")
-	const [websiteURL, setWebsiteURL] = useState("")
+	const websiteNameRef = useRef<HTMLInputElement>(null)
+	const websiteURLRef = useRef<HTMLInputElement>(null)
 	function submitBtnHandler() {
-		if (websiteName === "" || websiteURL === "")
+		if (
+			websiteNameRef.current?.value === "" ||
+			websiteURLRef.current?.value === ""
+		)
 			return alert("please fill in the fields")
-		submitBtnMission(websiteName, websiteURL)
+		submitBtnMission(
+			websiteNameRef.current?.value,
+			websiteURLRef.current?.value,
+		)
 	}
 	document.addEventListener("keyup", (e) => {
 		if (e.key === "Enter")
@@ -32,10 +38,7 @@ export default function NewFavsiteForm({
 						autoFocus
 						type="text"
 						className="w-full text-2xl pl-3 py-2"
-						value={websiteName}
-						onChange={(e) =>
-							setWebsiteName(e.currentTarget.value)
-						}
+						ref={websiteNameRef}
 					/>
 					<h2 className="text-gray-100 text-xl font-semibold my-2 mt-4">
 						website URL
@@ -43,10 +46,7 @@ export default function NewFavsiteForm({
 					<input
 						type="text"
 						className="w-full text-2xl pl-3 py-2"
-						value={websiteURL}
-						onChange={(e) =>
-							setWebsiteURL(e.currentTarget.value)
-						}
+						ref={websiteURLRef}
 					/>
 					<input
 						onClick={submitBtnHandler}
