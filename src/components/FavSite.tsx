@@ -4,7 +4,6 @@ export default function FavSite({ url, name }: { url: string; name: string }) {
 	}
 	const regex: RegExp = /(http|https)/gi
 	const usedURL: string = regex.test(url) ? url : `http://${url}`
-	let favSiteImg: string
 	return (
 		<>
 			<div

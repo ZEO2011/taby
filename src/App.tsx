@@ -4,10 +4,14 @@ import "./assets/styles/normalize.css"
 
 // Hooks
 import React, { useEffect, useState } from "react"
+
+// components
 import FavSite from "./components/FavSite"
+import NewFavsiteForm from "./components/NewFavsiteForm"
+
+// Libraries
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPlus, faXmarkCircle } from "@fortawesome/free-solid-svg-icons"
-import NewFavsiteForm from "./components/NewFavsiteForm"
 
 type sites = { url: string; name: string; saved?: boolean }
 
