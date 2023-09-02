@@ -25,7 +25,7 @@ export default function App() {
 	useEffect(() => {
 		const intervalId = setInterval(() => {
 			setTime(new Date())
-		}, 1000)
+		}, 5000)
 		return () => {
 			clearInterval(intervalId)
 		}
@@ -119,16 +119,18 @@ export default function App() {
 						)
 					},
 				)}
-				<button
-					onClick={() => setNewFavSiteStates((cur) => !cur)}
-					className="site h-[8.5rem] w-36 px-2 py-0.5 cursor-pointer rounded-md transition-all hover:bg-white hover:bg-opacity-10 backdrop-blur-sm"
-				>
-					<FontAwesomeIcon
-						icon={faPlus}
-						size="4x"
-						className="text-white"
-					/>
-				</button>
+				{favSites.length >= 8 ? null : (
+					<button
+						onClick={() => setNewFavSiteStates((cur) => !cur)}
+						className="site h-[8.5rem] w-36 px-2 py-0.5 cursor-pointer rounded-md transition-all hover:bg-white hover:bg-opacity-10 backdrop-blur-sm"
+					>
+						<FontAwesomeIcon
+							icon={faPlus}
+							size="4x"
+							className="text-white"
+						/>
+					</button>
+				)}
 				{newFavSiteStatus ? (
 					<NewFavsiteForm
 						closeComponent={

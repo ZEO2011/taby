@@ -21,10 +21,10 @@
 		@apply font-[sf-pro-en] h-full bg-[url('/imgs/background/test.jpg')] bg-cover bg-no-repeat;
 	}
 	#root {
-		@apply w-full h-full;
+		@apply w-full h-full z-40;
 	}
 	#alert-messages:has(*) {
-		@apply w-full h-full grid place-items-center fixed inset-0 bg-[#33333356];
+		@apply w-full h-full grid place-items-center fixed inset-0 z-50 bg-[#33333356];
 	}
 	object {
 		@apply rounded-[50%];
@@ -44,5 +44,9 @@
 	// components
 	.main-input {
 		@apply pl-6 py-2 rounded-lg;
+	}
+	// site
+	.site-parent:hover .edit {
+		@apply grid;
 	}
 }

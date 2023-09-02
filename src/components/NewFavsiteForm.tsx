@@ -27,7 +27,7 @@ export default function NewFavsiteForm({
 	})
 	return createPortal(
 		<>
-			<div className="message-container backdrop-blur-md w-[min(50rem,95%)] h-[30rem] shadow-lg relative">
+			<div className="message-container z-50 backdrop-blur-md w-[min(50rem,95%)] h-[30rem] shadow-lg relative">
 				{closeComponent}
 				<div className="w-full h-full flex flex-col mt-12 items-center px-28">
 					<h1 className="text-white text-5xl">new site</h1>

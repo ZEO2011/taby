@@ -2,6 +2,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons"
 import { useRef } from "react"
+
+// types
 import type { MouseEventHandler } from "react"
 
 export default function FavSite({
@@ -23,10 +25,10 @@ export default function FavSite({
 	const usedURL: string = regex.test(url) ? url : `https://${url}`
 	// delete button handler
 	return (
-		<div className="parent relative w-fit h-fit" id={id}>
+		<div className="site-parent relative w-fit h-fit" id={id}>
 			<button
 				onClick={() => edits.current?.classList.toggle("hidden")}
-				className="edit z-50 absolute right-0 w-8 h-8 rounded-[50%] grid place-items-center text-white transition-all hover:bg-white hover:bg-opacity-25
+				className="edit hidden z-10 absolute right-0 w-8 h-8 rounded-[50%] place-items-center text-white transition-all hover:bg-white hover:bg-opacity-25
 					"
 			>
 				<FontAwesomeIcon icon={faEllipsisVertical} />
