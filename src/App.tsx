@@ -8,11 +8,11 @@ import React, { useEffect, useRef, useState, useId } from "react"
 // components
 import FavSite from "./components/FavSite"
 import NewFavsiteForm from "./components/NewFavsiteForm"
+import Clock from "./components/Clock"
 
 // Libraries
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPlus, faXmarkCircle } from "@fortawesome/free-solid-svg-icons"
-import { format } from "date-fns"
 
 type sites = { url: string; name: string; saved?: boolean; siteId?: string }
 
@@ -21,15 +21,6 @@ export default function App() {
 	const [newFavSiteStatus, setNewFavSiteStates] = useState(false)
 	const [favSites, setFavSite] = useState<sites[]>([])
 	let siteId: string = useId()
-	const [time, setTime] = useState(new Date())
-	useEffect(() => {
-		const intervalId = setInterval(() => {
-			setTime(new Date())
-		}, 5000)
-		return () => {
-			clearInterval(intervalId)
-		}
-	})
 	// check if user get into the app for the first time
 	useEffect(() => {
 		if (localStorage.getItem("saved_websites") === null) {
@@ -80,9 +71,9 @@ export default function App() {
 	}
 	return (
 		<div className="container flex flex-col justify-center items-center">
-			<h1 className="text-white text-9xl">{format(time, "h:mm a")}</h1>
+			<Clock />
 			<div className="search w-[min(50rem,100%)] relative">
-				<div className="w-fit bg-white p-3 rounded-lg absolute left-2 !grid place-items-center h-full">
+				<div className="w-fit bg-white p-3 rounded-lg absolute left-2 top-0 !grid place-items-center h-20">
 					<img
 						src="/imgs/search_engines/google.png"
 						alt="google search engine"
@@ -96,6 +87,7 @@ export default function App() {
 					onKeyUp={(e) => searchBarHandler(e)}
 					ref={searchBarRef}
 				/>
+				C
 			</div>
 			<div className="fav-sites w-[min(50rem,100%)] h-fit mt-4 flex flex-wrap gap-6 justify-center items-center">
 				{favSites.map(
