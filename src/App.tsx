@@ -12,6 +12,7 @@ import NewFavsiteForm from "./components/NewFavsiteForm"
 // Libraries
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPlus, faXmarkCircle } from "@fortawesome/free-solid-svg-icons"
+import { format } from "date-fns"
 
 type sites = { url: string; name: string; saved?: boolean; siteId?: string }
 
@@ -20,6 +21,15 @@ export default function App() {
 	const [newFavSiteStatus, setNewFavSiteStates] = useState(false)
 	const [favSites, setFavSite] = useState<sites[]>([])
 	let siteId: string = useId()
+	const [time, setTime] = useState(new Date())
+	useEffect(() => {
+		const intervalId = setInterval(() => {
+			setTime(new Date())
+		}, 1000)
+		return () => {
+			clearInterval(intervalId)
+		}
+	})
 	// check if user get into the app for the first time
 	useEffect(() => {
 		if (localStorage.getItem("saved_websites") === null) {
@@ -70,7 +80,7 @@ export default function App() {
 	}
 	return (
 		<div className="container flex flex-col justify-center items-center">
-			<h1 className="text-white text-9xl">hello, ziad</h1>
+			<h1 className="text-white text-9xl">{format(time, "h:mm a")}</h1>
 			<div className="search w-[min(50rem,100%)] relative">
 				<div className="w-fit bg-white p-3 rounded-lg absolute left-2 !grid place-items-center h-full">
 					<img
