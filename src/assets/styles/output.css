@@ -650,6 +650,10 @@ input {
   right: 0px;
 }
 
+.top-0 {
+  top: 0px;
+}
+
 .top-9 {
   top: 2.25rem;
 }
@@ -795,6 +799,16 @@ input {
 
 .gap-6 {
   gap: 1.5rem;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.divide-y-2 > :not([hidden]) ~ :not([hidden]) {
+  --tw-divide-y-reverse: 0;
+  border-top-width: calc(2px * calc(1 - var(--tw-divide-y-reverse)));
+  border-bottom-width: calc(2px * var(--tw-divide-y-reverse));
 }
 
 .rounded-\[50\%\] {

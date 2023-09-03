@@ -11,11 +11,13 @@ export default function FavSite({
 	name,
 	id,
 	delBtnHandler = () => alert("delete button function is not defined"),
+	editBtnHandler,
 }: {
 	url: string
 	name: string
 	id: string
 	delBtnHandler?: MouseEventHandler<HTMLButtonElement>
+	editBtnHandler?: (id: string) => void
 }) {
 	const edits = useRef<HTMLDivElement>(null)
 	function siteHandler() {
@@ -35,8 +37,18 @@ export default function FavSite({
 			</button>
 			<div
 				ref={edits}
-				className="banel hidden absolute top-9 z-50 w-24 -right-7 h-fit py-1 flex-col gap-4 bg-slate-400"
+				className="banel hidden absolute top-9 z-50 w-24 -right-7 h-fit py-1 flex-col divide-y-2 gap-2 bg-slate-400"
 			>
+				<button
+					className="text-white w-full h-10 bg-slate-500"
+					onClick={() =>
+						editBtnHandler !== undefined
+							? editBtnHandler(id)
+							: alert("edit button is not defined")
+					}
+				>
+					edit
+				</button>
 				<button
 					className="text-white w-full h-10 bg-slate-500"
 					onClick={delBtnHandler}

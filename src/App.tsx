@@ -13,13 +13,18 @@ import Clock from "./components/Clock"
 // Libraries
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPlus, faXmarkCircle } from "@fortawesome/free-solid-svg-icons"
+import EditFavSiteForm from "./components/EditFavSiteForm"
 
 type sites = { url: string; name: string; saved?: boolean; siteId?: string }
 
 export default function App() {
 	const searchBarRef = useRef<HTMLInputElement>(null)
 	const [newFavSiteStatus, setNewFavSiteStates] = useState(false)
+	const [editFavSiteStatus, setEditFavSiteStatus] = useState(false)
 	const [favSites, setFavSite] = useState<sites[]>([])
+	const [NameDefaultValue, setNameDefaultValue] = useState<string>("")
+	const [URLDefaultValue, setURLDefaultValue] = useState<string>("")
+	const [currentFavSiteId, setCurrentFavSiteId] = useState<string>("")
 	let siteId: string = useId()
 	// check if user get into the app for the first time
 	useEffect(() => {
@@ -59,7 +64,7 @@ export default function App() {
 			"saved_websites",
 			JSON.stringify([...saved, ...favSites]),
 		)
-	}, [favSites])
+	}, [favSites, editFavSiteStatus])
 	// search bar handler
 	function searchBarHandler(e: React.KeyboardEvent<HTMLInputElement>) {
 		if (searchBarRef.current?.value === "") return
@@ -69,17 +74,53 @@ export default function App() {
 			)
 		}
 	}
+	// get default values of the site that user wanna edit
+	useEffect(() => {
+		favSites.map((site) => {
+			if (site.siteId === `${siteId}-${site.name}`)
+				setNameDefaultValue(site.name)
+		})
+		favSites.map((site) => {
+			if (site.siteId === `${siteId}-${site.name}`)
+				setURLDefaultValue(site.url)
+		})
+	})
+	// submit edit form handler
+	function submitEditFormHandler(
+		name: string | undefined,
+		url: string | undefined,
+	) {
+		if (name === "" || url === "")
+			return alert("please fill in the fields")
+		else {
+			setEditFavSiteStatus(false)
+			return setFavSite((current: sites[]) => {
+				current.forEach((site: sites) => {
+					if (site.siteId === currentFavSiteId) {
+						site.name = name !== undefined ? name : site.name
+						site.siteId = `${`:${
+							site.siteId.slice(1).split(":")[0]
+						}:`}-${site.name}`
+						site.url = url !== undefined ? url : site.url
+					} else {
+						return site
+					}
+				})
+				return current
+			})
+		}
+	}
 	return (
 		<div className="container flex flex-col justify-center items-center">
 			<Clock />
 			<div className="search w-[min(50rem,100%)] relative">
-				<div className="w-fit bg-white p-3 rounded-lg absolute left-2 top-0 !grid place-items-center h-20">
+				<button className="w-fit bg-white p-3 rounded-lg absolute left-2 top-0 !grid place-items-center h-20">
 					<img
-						src="/imgs/search_engines/google.png"
+						src={`/imgs/search_engines/google.png`}
 						alt="google search engine"
 						className="w-12"
 					/>
-				</div>
+				</button>
 				<input
 					className="main-input w-full h-20 text-2xl pl-[5.5rem] pr-8"
 					type="text"
@@ -87,7 +128,6 @@ export default function App() {
 					onKeyUp={(e) => searchBarHandler(e)}
 					ref={searchBarRef}
 				/>
-				C
 			</div>
 			<div className="fav-sites w-[min(50rem,100%)] h-fit mt-4 flex flex-wrap gap-6 justify-center items-center">
 				{favSites.map(
@@ -97,14 +137,31 @@ export default function App() {
 								key={crypto.randomUUID()}
 								url={url}
 								name={name}
-								id={siteId}
+								id={`${siteId}-${name}`}
 								delBtnHandler={() => {
 									return setFavSite((current) => {
 										return current.filter(
 											(el) =>
 												el.siteId !=
-												`${siteId}-${name}`,
+												`${siteId}-${el.name}`,
 										)
+									})
+								}}
+								editBtnHandler={(id: string) => {
+									setEditFavSiteStatus(true)
+									return favSites.map((site) => {
+										if (site.siteId === id)
+											setNameDefaultValue(
+												site.name,
+											)
+										if (site.siteId === id)
+											setURLDefaultValue(
+												site.url,
+											)
+										if (site.siteId === id)
+											setCurrentFavSiteId(
+												site.siteId,
+											)
 									})
 								}}
 							/>
@@ -123,6 +180,34 @@ export default function App() {
 						/>
 					</button>
 				)}
+				{editFavSiteStatus ? (
+					<>
+						<EditFavSiteForm
+							closeComponent={
+								<div
+									className="close absolute -top-2 -right-2 text-4xl text-red-500 cursor-pointer"
+									onClick={() =>
+										setEditFavSiteStatus(false)
+									}
+								>
+									<FontAwesomeIcon
+										icon={faXmarkCircle}
+									/>
+								</div>
+							}
+							defValues={[
+								URLDefaultValue,
+								NameDefaultValue,
+							]}
+							submitBtnMission={(
+								name: string | undefined,
+								url: string | undefined,
+							) => {
+								submitEditFormHandler(name, url)
+							}}
+						/>
+					</>
+				) : null}
 				{newFavSiteStatus ? (
 					<NewFavsiteForm
 						closeComponent={
