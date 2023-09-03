@@ -7,12 +7,12 @@ import React, { useEffect, useRef, useState, useId } from "react"
 
 // components
 import Clock from "./components/Clock"
-import Background from "./components/Background"
 import Loading from "./components/Loading"
 
 // Libraries
 import Search from "./components/Search"
 import Favsites from "./components/Favsites"
+import axios from "axios"
 
 export type sites = {
 	url: string
@@ -31,6 +31,16 @@ export default function App() {
 	const [currentFavSiteId, setCurrentFavSiteId] = useState<string>("")
 	let siteId: string = useId()
 	const [loading, setLoading] = useState(true)
+	const [randomBgValue, setRandomBgValue] = useState<string>()
+	// random background
+	useEffect(() => {
+		axios.get("/data/backgrounds.json").then(
+			(res: { data: string[] }) => {
+				const random = Math.floor(Math.random() * res.data.length)
+				setRandomBgValue(res.data[random])
+			},
+		)
+	}, [])
 	// check if user get into the app for the first time
 	useEffect(() => {
 		if (localStorage.getItem("saved_websites") === null) {
@@ -90,7 +100,7 @@ export default function App() {
 			if (site.siteId === `${siteId}-${site.name}`)
 				setURLDefaultValue(site.url)
 		})
-	})
+	}, [])
 	// submit edit form handler
 	function submitEditFormHandler(
 		name: string | undefined,
@@ -126,8 +136,8 @@ export default function App() {
 	}, [])
 	return (
 		<div className="container flex flex-col justify-center items-center">
+			<img id="background-img" src={randomBgValue} loading="lazy" />
 			{loading ? <Loading /> : null}
-			<Background />
 			<Clock />
 			<Search
 				searchBarRef={searchBarRef}
