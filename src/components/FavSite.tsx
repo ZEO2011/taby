@@ -3,20 +3,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons"
 import { useRef } from "react"
 
-// types
-import type { MouseEventHandler } from "react"
-
 export default function FavSite({
 	url,
 	name,
 	id,
-	delBtnHandler = () => alert("delete button function is not defined"),
+	delBtnHandler,
 	editBtnHandler,
 }: {
 	url: string
 	name: string
 	id: string
-	delBtnHandler?: MouseEventHandler<HTMLButtonElement>
+	delBtnHandler?: (id: string) => void
 	editBtnHandler?: (id: string) => void
 }) {
 	const edits = useRef<HTMLDivElement>(null)
@@ -51,7 +48,11 @@ export default function FavSite({
 				</button>
 				<button
 					className="text-white w-full h-10 bg-slate-500"
-					onClick={delBtnHandler}
+					onClick={() =>
+						delBtnHandler !== undefined
+							? delBtnHandler(id)
+							: alert("edit button is not defined")
+					}
 				>
 					delete
 				</button>

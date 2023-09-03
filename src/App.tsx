@@ -6,16 +6,18 @@ import "./assets/styles/normalize.css"
 import React, { useEffect, useRef, useState, useId } from "react"
 
 // components
-import FavSite from "./components/FavSite"
-import NewFavsiteForm from "./components/NewFavsiteForm"
 import Clock from "./components/Clock"
 
 // Libraries
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPlus, faXmarkCircle } from "@fortawesome/free-solid-svg-icons"
-import EditFavSiteForm from "./components/EditFavSiteForm"
+import Search from "./components/Search"
+import Favsites from "./components/Favsites"
 
-type sites = { url: string; name: string; saved?: boolean; siteId?: string }
+export type sites = {
+	url: string
+	name: string
+	saved?: boolean
+	siteId?: string
+}
 
 export default function App() {
 	const searchBarRef = useRef<HTMLInputElement>(null)
@@ -67,7 +69,7 @@ export default function App() {
 		// ! don't edit the dependency array!!!!!!
 	}, [favSites, editFavSiteStatus])
 	// search bar handler
-	function searchBarHandler(e: React.KeyboardEvent<HTMLInputElement>) {
+	function searchBarHandler(e: React.KeyboardEvent) {
 		if (searchBarRef.current?.value === "") return
 		if (e.key === "Enter") {
 			window.open(
@@ -114,133 +116,25 @@ export default function App() {
 	return (
 		<div className="container flex flex-col justify-center items-center">
 			<Clock />
-			<div className="search w-[min(50rem,100%)] relative">
-				<button className="w-fit bg-white p-3 rounded-lg absolute left-2 top-0 !grid place-items-center h-20">
-					<img
-						src={`/imgs/search_engines/google.png`}
-						alt="google search engine"
-						className="w-12"
-					/>
-				</button>
-				<input
-					className="main-input w-full h-20 text-2xl pl-[5.5rem] pr-8"
-					type="text"
-					placeholder="search"
-					onKeyUp={(e) => searchBarHandler(e)}
-					ref={searchBarRef}
-				/>
-			</div>
-			<div className="fav-sites w-[min(50rem,100%)] h-fit mt-4 flex flex-wrap gap-6 justify-center items-center">
-				{favSites.map(
-					({ url, name }: { url: string; name: string }) => {
-						return (
-							<FavSite
-								key={crypto.randomUUID()}
-								url={url}
-								name={name}
-								id={`${siteId}-${name}`}
-								delBtnHandler={() => {
-									return setFavSite((current) => {
-										return current.filter(
-											(el) =>
-												el.siteId !=
-												`${siteId}-${el.name}`,
-										)
-									})
-								}}
-								editBtnHandler={(id: string) => {
-									setEditFavSiteStatus(true)
-									return favSites.map((site) => {
-										if (site.siteId === id)
-											setNameDefaultValue(
-												site.name,
-											)
-										if (site.siteId === id)
-											setURLDefaultValue(
-												site.url,
-											)
-										if (site.siteId === id)
-											setCurrentFavSiteId(
-												site.siteId,
-											)
-									})
-								}}
-							/>
-						)
-					},
-				)}
-				{favSites.length >= 8 ? null : (
-					<button
-						onClick={() => setNewFavSiteStates((cur) => !cur)}
-						className="site h-[8.5rem] w-36 px-2 py-0.5 cursor-pointer rounded-md transition-all hover:bg-white hover:bg-opacity-10 backdrop-blur-sm"
-					>
-						<FontAwesomeIcon
-							icon={faPlus}
-							size="4x"
-							className="text-white"
-						/>
-					</button>
-				)}
-				{editFavSiteStatus ? (
-					<>
-						<EditFavSiteForm
-							closeComponent={
-								<div
-									className="close absolute -top-2 -right-2 text-4xl text-red-500 cursor-pointer"
-									onClick={() =>
-										setEditFavSiteStatus(false)
-									}
-								>
-									<FontAwesomeIcon
-										icon={faXmarkCircle}
-									/>
-								</div>
-							}
-							defValues={[
-								URLDefaultValue,
-								NameDefaultValue,
-							]}
-							submitBtnMission={(
-								name: string | undefined,
-								url: string | undefined,
-							) => {
-								submitEditFormHandler(name, url)
-							}}
-						/>
-					</>
-				) : null}
-				{newFavSiteStatus ? (
-					<NewFavsiteForm
-						closeComponent={
-							<>
-								<div
-									className="close absolute -top-2 -right-2 text-4xl text-red-500 cursor-pointer"
-									onClick={() =>
-										setNewFavSiteStates(false)
-									}
-								>
-									<FontAwesomeIcon
-										icon={faXmarkCircle}
-									/>
-								</div>
-							</>
-						}
-						submitBtnMission={(name: string, url: string) => {
-							setNewFavSiteStates(false)
-							setFavSite((current) => {
-								return [
-									...current,
-									{
-										name,
-										url,
-										siteId: `${siteId}-${name}`,
-									},
-								]
-							})
-						}}
-					/>
-				) : null}
-			</div>
+			<Search
+				searchBarRef={searchBarRef}
+				searchBarHandler={searchBarHandler}
+			/>
+			<Favsites
+				siteId={siteId}
+				favSites={favSites}
+				setFavSite={setFavSite}
+				setEditFavSiteStatus={setEditFavSiteStatus}
+				setNameDefaultValue={setNameDefaultValue}
+				setURLDefaultValue={setURLDefaultValue}
+				setCurrentFavSiteId={setCurrentFavSiteId}
+				NameDefaultValue={NameDefaultValue}
+				URLDefaultValue={URLDefaultValue}
+				setNewFavSiteStates={setNewFavSiteStates}
+				editFavSiteStatus={editFavSiteStatus}
+				submitEditFormHandler={submitEditFormHandler}
+				newFavSiteStatus={newFavSiteStatus}
+			/>
 		</div>
 	)
 }
