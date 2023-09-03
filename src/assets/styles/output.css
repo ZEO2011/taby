@@ -456,7 +456,6 @@ html {
 
 body {
   height: 100%;
-  background-image: url("/imgs/background/test.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   font-family: sf-pro-en;
@@ -477,6 +476,13 @@ body {
   width: 100%;
   place-items: center;
   background-color: #33333356;
+}
+
+#background-img {
+  position: fixed;
+  inset: 0px;
+  height: 100%;
+  width: 100%;
 }
 
 object {
@@ -506,6 +512,20 @@ input {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   padding-left: 1.5rem;
+}
+
+.loading object {
+  animation: spin 1.5s alternate infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(180deg);
+  }
 }
 
 .site-parent:hover .edit {
@@ -622,12 +642,20 @@ input {
   }
 }
 
+.fixed {
+  position: fixed;
+}
+
 .absolute {
   position: absolute;
 }
 
 .relative {
   position: relative;
+}
+
+.inset-0 {
+  inset: 0px;
 }
 
 .-right-2 {
@@ -660,6 +688,10 @@ input {
 
 .z-10 {
   z-index: 10;
+}
+
+.z-40 {
+  z-index: 40;
 }
 
 .z-50 {
@@ -822,6 +854,11 @@ input {
 .bg-blue-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(59 130 246 / var(--tw-bg-opacity));
+}
+
+.bg-gray-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
 
 .bg-slate-400 {

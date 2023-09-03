@@ -12,5 +12,7 @@ export default function Clock() {
 			clearInterval(intervalId)
 		}
 	})
-	return <h1 className="text-white text-9xl">{format(time, "h:mm a")}</h1>
+	return (
+		<h1 className="text-white text-9xl z-40">{format(time, "h:mm a")}</h1>
+	)
 }

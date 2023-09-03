@@ -7,6 +7,8 @@ import React, { useEffect, useRef, useState, useId } from "react"
 
 // components
 import Clock from "./components/Clock"
+import Background from "./components/Background"
+import Loading from "./components/Loading"
 
 // Libraries
 import Search from "./components/Search"
@@ -28,6 +30,7 @@ export default function App() {
 	const [URLDefaultValue, setURLDefaultValue] = useState<string>("")
 	const [currentFavSiteId, setCurrentFavSiteId] = useState<string>("")
 	let siteId: string = useId()
+	const [loading, setLoading] = useState(true)
 	// check if user get into the app for the first time
 	useEffect(() => {
 		if (localStorage.getItem("saved_websites") === null) {
@@ -113,8 +116,18 @@ export default function App() {
 			})
 		}
 	}
+	// loading the background
+	function handleLoading() {
+		setLoading(false)
+	}
+	useEffect(() => {
+		window.addEventListener("load", handleLoading)
+		return () => window.removeEventListener("load", handleLoading)
+	}, [])
 	return (
 		<div className="container flex flex-col justify-center items-center">
+			{loading ? <Loading /> : null}
+			<Background />
 			<Clock />
 			<Search
 				searchBarRef={searchBarRef}
