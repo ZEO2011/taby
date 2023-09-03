@@ -64,6 +64,7 @@ export default function App() {
 			"saved_websites",
 			JSON.stringify([...saved, ...favSites]),
 		)
+		// ! don't edit the dependency array!!!!!!
 	}, [favSites, editFavSiteStatus])
 	// search bar handler
 	function searchBarHandler(e: React.KeyboardEvent<HTMLInputElement>) {
