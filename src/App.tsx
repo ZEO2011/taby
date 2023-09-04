@@ -3,7 +3,7 @@ import "./assets/styles/output.css"
 import "./assets/styles/normalize.css"
 
 // Hooks
-import { useEffect, useRef, useState, useId } from "react"
+import { useEffect, useState, useId } from "react"
 
 // components
 import Clock from "./components/Clock"
@@ -23,7 +23,6 @@ export type sites = {
 }
 
 export default function App() {
-	const searchBarRef = useRef<HTMLInputElement>(null)
 	const [newFavSiteStatus, setNewFavSiteStates] = useState(false)
 	const [editFavSiteStatus, setEditFavSiteStatus] = useState(false)
 	const [favSites, setFavSite] = useState<sites[]>([])
@@ -42,7 +41,6 @@ export default function App() {
 			},
 		)
 	}, [])
-
 	// loading the background
 	function handleLoading() {
 		setLoading(false)
@@ -56,7 +54,7 @@ export default function App() {
 			<img id="background-img" src={randomBgValue} />
 			{loading ? <Loading /> : null}
 			<Clock />
-			<Search searchBarRef={searchBarRef} />
+			<Search />
 			<Favsites
 				siteId={siteId}
 				favSites={favSites}

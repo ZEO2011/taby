@@ -12,7 +12,7 @@ export default function Quote() {
 		})
 	}, [])
 	return (
-		<q className=" text-xl z-10 mx-auto absolute bottom-2 backdrop-blur-3xl text-white w-fit px-5 py-3 rounded-lg">
+		<q className=" text-xl z-10 mx-auto absolute bottom-2 backdrop-blur-3xl text-white w-fit px-5 py-3 rounded-lg text-center">
 			{quote}
 		</q>
 	)
