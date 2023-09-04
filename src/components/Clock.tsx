@@ -13,6 +13,8 @@ export default function Clock() {
 		}
 	})
 	return (
-		<h1 className="text-white text-9xl z-40">{format(time, "h:mm a")}</h1>
+		<h1 className="text-white text-9xl z-40 text-center ">
+			{format(time, "h:mm a")}
+		</h1>
 	)
 }

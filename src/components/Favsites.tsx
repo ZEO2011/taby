@@ -121,7 +121,7 @@ export default function Favsites({
 	}
 	return (
 		<>
-			<div className="fav-sites w-[min(50rem,100%)] h-fit mt-4 flex flex-wrap gap-6 justify-center items-center">
+			<div className="fav-sites md:mb-8 mb-12 w-[min(50rem,100%)] mt-4 flex flex-wrap gap-6 justify-center items-center">
 				{favSites.map(
 					({ url, name }: { url: string; name: string }) => {
 						return (

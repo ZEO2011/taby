@@ -13,6 +13,7 @@ import Loading from "./components/Loading"
 import Search from "./components/Search"
 import Favsites from "./components/Favsites"
 import axios from "axios"
+import Quote from "./components/Quote"
 
 export type sites = {
 	url: string
@@ -52,7 +53,7 @@ export default function App() {
 	}, [])
 	return (
 		<div className="container flex flex-col justify-center items-center">
-			<img id="background-img" src={randomBgValue} loading="lazy" />
+			<img id="background-img" src={randomBgValue} />
 			{loading ? <Loading /> : null}
 			<Clock />
 			<Search searchBarRef={searchBarRef} />
@@ -71,6 +72,7 @@ export default function App() {
 				newFavSiteStatus={newFavSiteStatus}
 				currentFavSiteId={currentFavSiteId}
 			/>
+			<Quote />
 		</div>
 	)
 }

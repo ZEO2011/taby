@@ -48,10 +48,6 @@
 	.main-input {
 		@apply pl-6 py-2 rounded-lg;
 	}
-	// loading
-	.loading object {
-		animation: spin 1.5s alternate infinite;
-	}
 	@keyframes spin {
 		0% {
 			transform: rotate(0deg);
