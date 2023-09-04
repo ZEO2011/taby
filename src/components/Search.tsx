@@ -3,11 +3,18 @@ import type { RefObject } from "react"
 
 export default function Search({
 	searchBarRef,
-	searchBarHandler,
 }: {
 	searchBarRef: RefObject<HTMLInputElement>
-	searchBarHandler: (e: React.KeyboardEvent) => void
 }) {
+	// search bar handler
+	function searchBarHandler(e: React.KeyboardEvent) {
+		if (searchBarRef.current?.value === "") return
+		if (e.key === "Enter") {
+			window.open(
+				`https://www.google.com/search?q=${searchBarRef.current?.value}`,
+			)
+		}
+	}
 	return (
 		<>
 			<div className="search w-[min(50rem,100%)] relative">
