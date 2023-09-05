@@ -18,7 +18,7 @@ export default function FavSite({
 }) {
 	const edits = useRef<HTMLDivElement>(null)
 	function siteHandler() {
-		window.open(`https://${url}`)
+		window.open(url)
 	}
 	const regex: RegExp = /(http|https)/gi
 	const usedURL: string = regex.test(url) ? url : `https://${url}`
